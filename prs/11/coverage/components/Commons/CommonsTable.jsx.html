@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.61% </span>
+                <span class="strong">90.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>338/373</span>
+                <span class='fraction'>343/378</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.61% </span>
+                <span class="strong">90.74% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>338/373</span>
+                <span class='fraction'>343/378</span>
             </div>
         
             
@@ -564,7 +564,13 @@
 <a name='L499'></a><a href='#L499'>499</a>
 <a name='L500'></a><a href='#L500'>500</a>
 <a name='L501'></a><a href='#L501'>501</a>
-<a name='L502'></a><a href='#L502'>502</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -667,6 +673,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
@@ -700,7 +707,9 @@
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
@@ -789,6 +798,9 @@
 <span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1168,40 +1180,43 @@ export default function CommonsTable({ commons, currentUser }) {
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }, []);
 &nbsp;
-  const getSortableValue = useCallback((commonsPlus, key) =&gt; {
-    switch (key) {
-      case "commons.id":
-        return commonsPlus.commons.id<span class="branch-0 cbranch-no" title="branch not covered" > ?? null;</span>
-      case "commons.name":
-        return commonsPlus.commons.name<span class="branch-0 cbranch-no" title="branch not covered" > ?? "";</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.cowPrice":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.cowPrice ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.milkPrice":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.milkPrice ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.startingBalance":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.startingBalance ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.startingDate":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.startingDate ?? "";</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.lastDate":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.lastDate ?? "";</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.degradationRate":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.degradationRate ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.showLeaderboard":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.showLeaderboard ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.showChat":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.showChat ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "totalCows":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.totalCows ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.capacityPerUser":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.capacityPerUser ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "commons.carryingCapacity":</span>
-<span class="cstat-no" title="statement not covered" >        return commonsPlus.commons.carryingCapacity ?? null;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      case "effectiveCapacity":</span>
-<span class="cstat-no" title="statement not covered" >        return computeEffectiveCapacity(commonsPlus);</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >      default:</span>
-<span class="cstat-no" title="statement not covered" >        return null;</span>
-    }
-  }, [computeEffectiveCapacity]);
+  const getSortableValue = useCallback(
+    (commonsPlus, key) =&gt; {
+      switch (key) {
+        case "commons.id":
+          return commonsPlus.commons.id<span class="branch-0 cbranch-no" title="branch not covered" > ?? null;</span>
+        case "commons.name":
+          return commonsPlus.commons.name<span class="branch-0 cbranch-no" title="branch not covered" > ?? "";</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.cowPrice":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.cowPrice ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.milkPrice":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.milkPrice ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.startingBalance":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.startingBalance ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.startingDate":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.startingDate ?? "";</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.lastDate":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.lastDate ?? "";</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.degradationRate":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.degradationRate ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.showLeaderboard":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.showLeaderboard ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.showChat":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.showChat ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "totalCows":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.totalCows ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.capacityPerUser":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.capacityPerUser ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "commons.carryingCapacity":</span>
+<span class="cstat-no" title="statement not covered" >          return commonsPlus.commons.carryingCapacity ?? null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        case "effectiveCapacity":</span>
+<span class="cstat-no" title="statement not covered" >          return computeEffectiveCapacity(commonsPlus);</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >        default:</span>
+<span class="cstat-no" title="statement not covered" >          return null;</span>
+      }
+    },
+    [computeEffectiveCapacity],
+  );
 &nbsp;
   const validSortKey = SORT_FIELDS.some((field) =&gt; field.key === sortKey)
     ? <span class="branch-0 cbranch-no" title="branch not covered" >sortKey</span>
@@ -1290,7 +1305,10 @@ export default function CommonsTable({ commons, currentUser }) {
                   className="flex-wrap"
                   data-testid={`CommonsTable-card-${index}-summary`}
                 &gt;
-                  &lt;Badge bg="secondary" data-testid={`CommonsTable-card-${index}-totalCows`}&gt;
+                  &lt;Badge
+                    bg="secondary"
+                    data-testid={`CommonsTable-card-${index}-totalCows`}
+                  &gt;
                     Tot Cows: {formatPlain(totalCows)}
                   &lt;/Badge&gt;
                   &lt;Badge
@@ -1573,7 +1591,7 @@ const SORT_FIELDS = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-17T01:21:18.021Z
+                at 2025-11-17T01:23:38.316Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
