@@ -1037,231 +1037,231 @@ export default function CommonsTable({ commons, currentUser }) {
   }, [commons, validSortKey, sortDirection]);
 &nbsp;
   const cards = sortedCommons.map((commonsPlus, index) =&gt; {
-        const { commons: commonsData, totalCows } = commonsPlus;
-        const {
-          id,
-          name,
-          cowPrice,
-          milkPrice,
-          startingBalance,
-          startingDate,
-          lastDate,
-          degradationRate,
-          capacityPerUser,
-          carryingCapacity,
-          showLeaderboard,
-          showChat,
-        } = commonsData;
+    const { commons: commonsData, totalCows } = commonsPlus;
+    const {
+      id,
+      name,
+      cowPrice,
+      milkPrice,
+      startingBalance,
+      startingDate,
+      lastDate,
+      degradationRate,
+      capacityPerUser,
+      carryingCapacity,
+      showLeaderboard,
+      showChat,
+    } = commonsData;
 &nbsp;
-        const computedEffectiveCapacity = computeEffectiveCapacity(commonsPlus);
+    const computedEffectiveCapacity = computeEffectiveCapacity(commonsPlus);
 &nbsp;
-        return (
-          &lt;Card
-            key={id}
-            data-testid={`CommonsTable-card-${index}`}
-            className="shadow-sm border-0"
+    return (
+      &lt;Card
+        key={id}
+        data-testid={`CommonsTable-card-${index}`}
+        className="shadow-sm border-0"
+      &gt;
+        &lt;Card.Header className="bg-transparent border-0 pb-0"&gt;
+          &lt;Stack
+            direction="horizontal"
+            className="flex-column flex-lg-row gap-3 align-items-start align-items-lg-center justify-content-between"
           &gt;
-            &lt;Card.Header className="bg-transparent border-0 pb-0"&gt;
-              &lt;Stack
-                direction="horizontal"
-                className="flex-column flex-lg-row gap-3 align-items-start align-items-lg-center justify-content-between"
+            &lt;div&gt;
+              &lt;div
+                data-testid={`CommonsTable-card-${index}-name`}
+                className="h5 mb-1"
               &gt;
-                &lt;div&gt;
-                  &lt;div
-                    data-testid={`CommonsTable-card-${index}-name`}
-                    className="h5 mb-1"
-                  &gt;
-                    {/* Keep existing test id for unit tests, and add the expected test id for integration tests */}
-                    &lt;span
-                      data-testid={`CommonsTable-card-${index}-field-commons.name`}
-                    &gt;
-                      {name}
-                    &lt;/span&gt;
-                  &lt;/div&gt;
-                  &lt;div className="text-muted small"&gt;
-                    &lt;span className="me-1"&gt;ID#&lt;/span&gt;
-                    &lt;span
-                      data-testid={`CommonsTable-card-${index}-field-commons.id`}
-                    &gt;
-                      {id}
-                    &lt;/span&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
-                &lt;Stack
-                  direction="horizontal"
-                  gap={2}
-                  className="flex-wrap"
-                  data-testid={`CommonsTable-card-${index}-summary`}
+                {/* Keep existing test id for unit tests, and add the expected test id for integration tests */}
+                &lt;span
+                  data-testid={`CommonsTable-card-${index}-field-commons.name`}
                 &gt;
-                  &lt;Badge
-                    bg="secondary"
-                    data-testid={`CommonsTable-card-${index}-totalCows`}
-                  &gt;
-                    Tot Cows: {formatPlain(totalCows)}
-                  &lt;/Badge&gt;
-                  &lt;Badge
-                    bg="secondary"
-                    data-testid={`CommonsTable-card-${index}-effectiveCapacity`}
-                  &gt;
-                    Eff Cap: {formatPlain(computedEffectiveCapacity)}
-                  &lt;/Badge&gt;
-                &lt;/Stack&gt;
-              &lt;/Stack&gt;
-            &lt;/Card.Header&gt;
-            &lt;Card.Body className="pt-3"&gt;
-              &lt;Row className="gy-3"&gt;
-                &lt;Col lg={6}&gt;
-                  &lt;h6 className="text-uppercase text-muted small mb-2"&gt;
-                    Economic Overview
-                  &lt;/h6&gt;
-                  &lt;dl className="row mb-0"&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Start Bal&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.startingBalance`}
-                    &gt;
-                      {formatPlain(startingBalance)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Cow Price&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.cowPrice`}
-                    &gt;
-                      {formatPlain(cowPrice)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Milk Price&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.milkPrice`}
-                    &gt;
-                      {formatPlain(milkPrice)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Degrad Rate&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.degradationRate`}
-                    &gt;
-                      {formatPlain(degradationRate)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Tot Cows&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-totalCows`}
-                    &gt;
-                      {formatPlain(totalCows)}
-                    &lt;/dd&gt;
-                  &lt;/dl&gt;
-                &lt;/Col&gt;
-                &lt;Col lg={6}&gt;
-                  &lt;h6 className="text-uppercase text-muted small mb-2"&gt;
-                    Timeline &amp; Capacity
-                  &lt;/h6&gt;
-                  &lt;dl className="row mb-0"&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Starting Date&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.startingDate`}
-                    &gt;
-                      {formatDate(startingDate)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Last Date&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.lastDate`}
-                    &gt;
-                      {formatDate(lastDate)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Cap / User&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.capacityPerUser`}
-                    &gt;
-                      {formatPlain(capacityPerUser)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Carry Cap&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.carryingCapacity`}
-                    &gt;
-                      {formatPlain(carryingCapacity)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Show LrdrBrd?&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.showLeaderboard`}
-                    &gt;
-                      {formatBoolean(showLeaderboard)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Show Chat&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-commons.showChat`}
-                    &gt;
-                      {formatBoolean(showChat)}
-                    &lt;/dd&gt;
-                    &lt;dt className="col-sm-5 text-muted small"&gt;Eff Cap&lt;/dt&gt;
-                    &lt;dd
-                      className="col-sm-7 fw-semibold"
-                      data-testid={`CommonsTable-card-${index}-field-effectiveCapacity`}
-                    &gt;
-                      {formatPlain(computedEffectiveCapacity)}
-                    &lt;/dd&gt;
-                  &lt;/dl&gt;
-                &lt;/Col&gt;
-              &lt;/Row&gt;
-              {isAdmin &amp;&amp; (
-                &lt;Stack
-                  direction="horizontal"
-                  gap={2}
-                  className="flex-wrap mt-3"
-                  data-testid={`CommonsTable-card-${index}-actions`}
+                  {name}
+                &lt;/span&gt;
+              &lt;/div&gt;
+              &lt;div className="text-muted small"&gt;
+                &lt;span className="me-1"&gt;ID#&lt;/span&gt;
+                &lt;span
+                  data-testid={`CommonsTable-card-${index}-field-commons.id`}
                 &gt;
-                  &lt;Button
-                    variant="primary"
-                    size="sm"
-                    data-testid={`CommonsTable-card-${index}-action-Edit`}
-                    onClick={() =&gt; handleEdit(id)}
-                  &gt;
-                    Edit
-                  &lt;/Button&gt;
-                  &lt;Button
-                    variant="danger"
-                    size="sm"
-                    data-testid={`CommonsTable-card-${index}-action-Delete`}
-                    onClick={() =&gt; handleDelete(commonsPlus)}
-                  &gt;
-                    Delete
-                  &lt;/Button&gt;
-                  &lt;Button
-                    variant="secondary"
-                    size="sm"
-                    data-testid={`CommonsTable-card-${index}-action-Leaderboard`}
-                    onClick={() =&gt; handleLeaderboard(id)}
-                  &gt;
-                    Leaderboard
-                  &lt;/Button&gt;
-                  &lt;Button
-                    variant="success"
-                    size="sm"
-                    data-testid={`CommonsTable-card-${index}-action-StatsCSV`}
-                    href={`/api/commonstats/download?commonsId=${id}`}
-                  &gt;
-                    Stats CSV
-                  &lt;/Button&gt;
-                  &lt;Button
-                    variant="info"
-                    size="sm"
-                    data-testid={`CommonsTable-card-${index}-action-Announcements`}
-                    href={`/admin/announcements/${id}`}
-                  &gt;
-                    Announcements
-                  &lt;/Button&gt;
-                &lt;/Stack&gt;
-              )}
-            &lt;/Card.Body&gt;
-          &lt;/Card&gt;
-        );
-      });
+                  {id}
+                &lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;Stack
+              direction="horizontal"
+              gap={2}
+              className="flex-wrap"
+              data-testid={`CommonsTable-card-${index}-summary`}
+            &gt;
+              &lt;Badge
+                bg="secondary"
+                data-testid={`CommonsTable-card-${index}-totalCows`}
+              &gt;
+                Tot Cows: {formatPlain(totalCows)}
+              &lt;/Badge&gt;
+              &lt;Badge
+                bg="secondary"
+                data-testid={`CommonsTable-card-${index}-effectiveCapacity`}
+              &gt;
+                Eff Cap: {formatPlain(computedEffectiveCapacity)}
+              &lt;/Badge&gt;
+            &lt;/Stack&gt;
+          &lt;/Stack&gt;
+        &lt;/Card.Header&gt;
+        &lt;Card.Body className="pt-3"&gt;
+          &lt;Row className="gy-3"&gt;
+            &lt;Col lg={6}&gt;
+              &lt;h6 className="text-uppercase text-muted small mb-2"&gt;
+                Economic Overview
+              &lt;/h6&gt;
+              &lt;dl className="row mb-0"&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Start Bal&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.startingBalance`}
+                &gt;
+                  {formatPlain(startingBalance)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Cow Price&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.cowPrice`}
+                &gt;
+                  {formatPlain(cowPrice)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Milk Price&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.milkPrice`}
+                &gt;
+                  {formatPlain(milkPrice)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Degrad Rate&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.degradationRate`}
+                &gt;
+                  {formatPlain(degradationRate)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Tot Cows&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-totalCows`}
+                &gt;
+                  {formatPlain(totalCows)}
+                &lt;/dd&gt;
+              &lt;/dl&gt;
+            &lt;/Col&gt;
+            &lt;Col lg={6}&gt;
+              &lt;h6 className="text-uppercase text-muted small mb-2"&gt;
+                Timeline &amp; Capacity
+              &lt;/h6&gt;
+              &lt;dl className="row mb-0"&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Starting Date&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.startingDate`}
+                &gt;
+                  {formatDate(startingDate)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Last Date&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.lastDate`}
+                &gt;
+                  {formatDate(lastDate)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Cap / User&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.capacityPerUser`}
+                &gt;
+                  {formatPlain(capacityPerUser)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Carry Cap&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.carryingCapacity`}
+                &gt;
+                  {formatPlain(carryingCapacity)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Show LrdrBrd?&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.showLeaderboard`}
+                &gt;
+                  {formatBoolean(showLeaderboard)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Show Chat&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-commons.showChat`}
+                &gt;
+                  {formatBoolean(showChat)}
+                &lt;/dd&gt;
+                &lt;dt className="col-sm-5 text-muted small"&gt;Eff Cap&lt;/dt&gt;
+                &lt;dd
+                  className="col-sm-7 fw-semibold"
+                  data-testid={`CommonsTable-card-${index}-field-effectiveCapacity`}
+                &gt;
+                  {formatPlain(computedEffectiveCapacity)}
+                &lt;/dd&gt;
+              &lt;/dl&gt;
+            &lt;/Col&gt;
+          &lt;/Row&gt;
+          {isAdmin &amp;&amp; (
+            &lt;Stack
+              direction="horizontal"
+              gap={2}
+              className="flex-wrap mt-3"
+              data-testid={`CommonsTable-card-${index}-actions`}
+            &gt;
+              &lt;Button
+                variant="primary"
+                size="sm"
+                data-testid={`CommonsTable-card-${index}-action-Edit`}
+                onClick={() =&gt; handleEdit(id)}
+              &gt;
+                Edit
+              &lt;/Button&gt;
+              &lt;Button
+                variant="danger"
+                size="sm"
+                data-testid={`CommonsTable-card-${index}-action-Delete`}
+                onClick={() =&gt; handleDelete(commonsPlus)}
+              &gt;
+                Delete
+              &lt;/Button&gt;
+              &lt;Button
+                variant="secondary"
+                size="sm"
+                data-testid={`CommonsTable-card-${index}-action-Leaderboard`}
+                onClick={() =&gt; handleLeaderboard(id)}
+              &gt;
+                Leaderboard
+              &lt;/Button&gt;
+              &lt;Button
+                variant="success"
+                size="sm"
+                data-testid={`CommonsTable-card-${index}-action-StatsCSV`}
+                href={`/api/commonstats/download?commonsId=${id}`}
+              &gt;
+                Stats CSV
+              &lt;/Button&gt;
+              &lt;Button
+                variant="info"
+                size="sm"
+                data-testid={`CommonsTable-card-${index}-action-Announcements`}
+                href={`/admin/announcements/${id}`}
+              &gt;
+                Announcements
+              &lt;/Button&gt;
+            &lt;/Stack&gt;
+          )}
+        &lt;/Card.Body&gt;
+      &lt;/Card&gt;
+    );
+  });
 &nbsp;
   const commonsModal = (
     &lt;Modal
@@ -1369,7 +1369,7 @@ const SORT_FIELDS = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-18T06:30:25.202Z
+                at 2025-11-18T06:37:45.744Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
