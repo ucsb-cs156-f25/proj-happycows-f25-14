@@ -1,5 +1,5 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router";
 import CommonsTable from "main/components/Commons/CommonsTable";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
@@ -10,6 +10,7 @@ import {
   cellToAxiosParamsDelete,
   onDeleteSuccess,
 } from "main/utils/commonsUtils";
+import { createTestQueryClient } from "tests/utils/testQueryClient";
 
 // Next line uses technique from https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
 
@@ -20,167 +21,141 @@ vi.mock("react-router", async () => ({
   useNavigate: () => mockedNavigate,
 }));
 
-describe("UserTable tests", () => {
-  const queryClient = new QueryClient();
+const renderCommonsTable = (props) => {
+  const queryClient = createTestQueryClient();
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <CommonsTable {...props} />
+      </MemoryRouter>
+    </QueryClientProvider>,
+  );
+};
 
+describe("UserTable tests", () => {
   test("renders without crashing for empty table with user not logged in", () => {
     const currentUser = null;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({ commons: [], currentUser });
   });
   test("renders without crashing for empty table for ordinary user", () => {
     const currentUser = currentUserFixtures.userOnly;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({ commons: [], currentUser });
   });
 
   test("renders without crashing for empty table for admin", () => {
     const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable commons={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({ commons: [], currentUser });
   });
 
-  test("Has the expected column headers and content for adminUser", () => {
+  test("Displays expected commons information and actions for adminUser", () => {
     const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable
-            commons={commonsPlusFixtures.threeCommonsPlus}
-            currentUser={currentUser}
-          />
-        </MemoryRouter>
-      </QueryClientProvider>,
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
+    });
+    const cards = commonsPlusFixtures.threeCommonsPlus.map((_, index) =>
+      screen.getByTestId(`CommonsTable-card-${index}`),
     );
-    const expectedHeaders = [
-      "id",
-      "Name",
-      /Cow\s+Price/,
-      /Milk\s+Price/,
-      /Start\s+Bal/,
-      /Starting\s+Date/,
-      /Last\s+Date/,
-      /Degrad\s+Rate/,
-      /Show\s+LrdrBrd\?/,
-      /Tot\s+Cows/,
-      /Cap \/\s+User/,
-      /Carry\s+Cap/,
-      /Eff\s+Cap/,
-    ];
-    const expectedFields = [
-      "id",
-      "name",
-      "cowPrice",
-      "milkPrice",
-      "startingBalance",
-      "startingDate",
-      "lastDate",
-      "degradationRate",
-      "capacityPerUser",
-      "carryingCapacity",
-    ];
-
-    const testId = "CommonsTable";
-
-    expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
-      expect(header).toBeInTheDocument();
-    });
-
-    expectedFields.forEach((field) => {
-      const header = screen.getByTestId(
-        `${testId}-cell-row-0-col-commons.${field}`,
-      );
-      expect(header).toBeInTheDocument();
-    });
+    expect(cards.length).toEqual(commonsPlusFixtures.threeCommonsPlus.length);
 
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-commons.id`),
+      screen.getByTestId("CommonsTable-card-0-field-commons.id"),
     ).toHaveTextContent("1");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.id`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.id"),
     ).toHaveTextContent("2");
 
+    expect(screen.getByTestId("CommonsTable-card-1-name")).toHaveTextContent(
+      "Com2",
+    );
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.name`),
-    ).toHaveTextContent("Com2");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.cowPrice`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.cowPrice"),
     ).toHaveTextContent("1");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.milkPrice`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.milkPrice"),
     ).toHaveTextContent("2");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.degradationRate`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.degradationRate"),
     ).toHaveTextContent("0.01");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.capacityPerUser`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.capacityPerUser"),
     ).toHaveTextContent("5");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.carryingCapacity`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.carryingCapacity"),
     ).toHaveTextContent("42");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.startingBalance`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.startingBalance"),
     ).toHaveTextContent("10");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.startingDate`),
-    ).toHaveTextContent(/^2022-11-22$/); // regex so that we have an exact match https://stackoverflow.com/a/73298371
+      screen.getByTestId("CommonsTable-card-1-field-commons.startingDate"),
+    ).toHaveTextContent("2022-11-22");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.lastDate`),
-    ).toHaveTextContent(/^2022-11-22$/);
+      screen.getByTestId("CommonsTable-card-1-field-commons.lastDate"),
+    ).toHaveTextContent("2022-11-22");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.showLeaderboard`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.showLeaderboard"),
     ).toHaveTextContent("true");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-commons.showChat`),
+      screen.getByTestId("CommonsTable-card-1-field-commons.showChat"),
     ).toHaveTextContent("true");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-totalCows`),
+      screen.getByTestId("CommonsTable-card-1-field-totalCows"),
     ).toHaveTextContent("0");
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-effectiveCapacity`),
+      screen.getByTestId("CommonsTable-card-1-totalCows"),
+    ).toHaveTextContent("Tot Cows: 0");
+    expect(
+      screen.getByTestId("CommonsTable-card-1-effectiveCapacity"),
+    ).toHaveTextContent("Eff Cap: 42");
+    expect(
+      screen.getByTestId("CommonsTable-card-1-field-effectiveCapacity"),
     ).toHaveTextContent("42");
 
+    expect(screen.getByTestId("CommonsTable-card-0-action-Edit")).toHaveClass(
+      "btn-primary",
+    );
+    expect(screen.getByTestId("CommonsTable-card-0-action-Delete")).toHaveClass(
+      "btn-danger",
+    );
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`),
-    ).toHaveClass("btn-primary");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`),
-    ).toHaveClass("btn-danger");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Leaderboard-button`),
+      screen.getByTestId("CommonsTable-card-0-action-Leaderboard"),
     ).toHaveClass("btn-secondary");
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Stats CSV-button`),
+      screen.getByTestId("CommonsTable-card-0-action-StatsCSV"),
     ).toHaveClass("btn-success");
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-Announcements-button`),
+      screen.getByTestId("CommonsTable-card-0-action-Announcements"),
     ).toHaveClass("btn-info");
+  });
+
+  test("allows sorting by Name descending", () => {
+    const currentUser = currentUserFixtures.adminUser;
+
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
+    });
+
+    const sortSelect = screen.getByTestId("CommonsTable-sort-select");
+    fireEvent.change(sortSelect, { target: { value: "commons.name" } });
+
+    const directionToggle = screen.getByTestId(
+      "CommonsTable-sort-direction-toggle",
+    );
+    fireEvent.click(directionToggle);
+
+    expect(directionToggle).toHaveTextContent("Descending");
+    expect(
+      screen.getByTestId("CommonsTable-card-0-field-commons.id"),
+    ).toHaveTextContent("3");
   });
 });
 
 describe("Modal tests", () => {
-  const queryClient = new QueryClient();
-
   // Mocking the delete mutation function
   const mockMutate = vi.fn();
   const mockUseBackendMutation = {
@@ -200,31 +175,17 @@ describe("Modal tests", () => {
   test("Clicking Delete button opens the modal for adminUser", async () => {
     const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable
-            commons={commonsPlusFixtures.threeCommonsPlus}
-            currentUser={currentUser}
-          />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
-
-    // Verify that the modal is hidden by checking for the absence of the "modal-open" class
-    await waitFor(() => {
-      expect(document.body).not.toHaveClass("modal-open");
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
     });
 
     const deleteButton = screen.getByTestId(
-      "CommonsTable-cell-row-0-col-Delete-button",
+      "CommonsTable-card-0-action-Delete",
     );
     fireEvent.click(deleteButton);
 
-    // Verify that the modal is shown by checking for the "modal-open" class
-    await waitFor(() => {
-      expect(document.body).toHaveClass("modal-open");
-    });
+    expect(screen.getByTestId("CommonsTable-Modal")).toBeInTheDocument();
   });
 
   test("Clicking Permanently Delete button deletes the commons", async () => {
@@ -236,19 +197,13 @@ describe("Modal tests", () => {
       "useBackendMutation",
     );
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable
-            commons={commonsPlusFixtures.threeCommonsPlus}
-            currentUser={currentUser}
-          />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
+    });
 
     const deleteButton = screen.getByTestId(
-      "CommonsTable-cell-row-0-col-Delete-button",
+      "CommonsTable-card-0-action-Delete",
     );
     fireEvent.click(deleteButton);
 
@@ -257,46 +212,49 @@ describe("Modal tests", () => {
     );
     fireEvent.click(permanentlyDeleteButton);
 
-    await waitFor(() => {
-      expect(useBackendMutationSpy).toHaveBeenCalledWith(
-        cellToAxiosParamsDelete,
-        { onSuccess: onDeleteSuccess },
-        ["/api/commons/allplus"],
-      );
-    });
+    await waitFor(
+      () => {
+        expect(useBackendMutationSpy).toHaveBeenCalledWith(
+          cellToAxiosParamsDelete,
+          { onSuccess: onDeleteSuccess },
+          ["/api/commons/allplus"],
+        );
+      },
+      { timeout: 50 },
+    );
 
-    // Verify that the modal is hidden by checking for the absence of the "modal-open" class
-    await waitFor(() => {
-      expect(document.body).not.toHaveClass("modal-open");
-    });
+    await waitFor(
+      () => {
+        const modal = screen.getByTestId("CommonsTable-Modal");
+        expect(modal).not.toBeVisible();
+      },
+      { timeout: 50 },
+    );
   });
 
   test("Clicking Keep this Commons button cancels the deletion", async () => {
     const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable
-            commons={commonsPlusFixtures.threeCommonsPlus}
-            currentUser={currentUser}
-          />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
+    });
 
     const deleteButton = screen.getByTestId(
-      "CommonsTable-cell-row-0-col-Delete-button",
+      "CommonsTable-card-0-action-Delete",
     );
     fireEvent.click(deleteButton);
 
     const cancelButton = await screen.findByTestId("CommonsTable-Modal-Cancel");
     fireEvent.click(cancelButton);
 
-    // Verify that the modal is hidden by checking for the absence of the "modal-open" class
-    await waitFor(() => {
-      expect(document.body).not.toHaveClass("modal-open");
-    });
+    await waitFor(
+      () => {
+        const modal = screen.getByTestId("CommonsTable-Modal");
+        expect(modal).not.toBeVisible();
+      },
+      { timeout: 50 },
+    );
 
     expect(mockMutate).not.toHaveBeenCalled();
   });
@@ -304,34 +262,28 @@ describe("Modal tests", () => {
   test("Pressing the escape key on the modal cancels the deletion", async () => {
     const currentUser = currentUserFixtures.adminUser;
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable
-            commons={commonsPlusFixtures.threeCommonsPlus}
-            currentUser={currentUser}
-          />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+    renderCommonsTable({
+      commons: commonsPlusFixtures.threeCommonsPlus,
+      currentUser,
+    });
 
-    // Click the delete button to open the modal
     const deleteButton = screen.getByTestId(
-      "CommonsTable-cell-row-0-col-Delete-button",
+      "CommonsTable-card-0-action-Delete",
     );
     fireEvent.click(deleteButton);
 
-    // Check that the modal is displayed by checking for the "modal-open" class in the body
-    expect(document.body).toHaveClass("modal-open");
+    expect(screen.getByTestId("CommonsTable-Modal")).toBeInTheDocument();
 
-    // Click the close button
     const closeButton = screen.getByLabelText("Close");
     fireEvent.click(closeButton);
 
-    // Verify that the modal is hidden by checking for the absence of the "modal-open" class
-    await waitFor(() => {
-      expect(document.body).not.toHaveClass("modal-open");
-    });
+    await waitFor(
+      () => {
+        const modal = screen.getByTestId("CommonsTable-Modal");
+        expect(modal).not.toBeVisible();
+      },
+      { timeout: 50 },
+    );
 
     // Assert that the delete mutation was not called
     // (you'll need to replace `mockMutate` with the actual reference to the mutation in your code)

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import CommonsCard from "main/components/Commons/CommonsCard";
+import { isFutureDate } from "main/components/Commons/commonsCardUtils";
 import commonsFixtures from "fixtures/commonsFixtures";
 import { vi } from "vitest";
 import "@testing-library/jest-dom";
@@ -7,6 +8,39 @@ import "@testing-library/jest-dom";
 const curr = new Date();
 
 describe("CommonsCard tests", () => {
+  describe("isFutureDate", () => {
+    const referenceDate = new Date(2025, 4, 15); // May 15, 2025
+
+    it("returns true when target date is after reference", () => {
+      expect(isFutureDate("2025-06-01", referenceDate)).toBe(true);
+    });
+
+    it("returns false when target date equals reference", () => {
+      expect(isFutureDate("2025-05-15", referenceDate)).toBe(false);
+    });
+
+    it("returns false when target date is before reference", () => {
+      expect(isFutureDate("2025-04-20", referenceDate)).toBe(false);
+    });
+
+    it("returns false when starting date is missing", () => {
+      expect(isFutureDate(null, referenceDate)).toBe(false);
+    });
+
+    it("treats ISO strings with time component as the same calendar day", () => {
+      expect(isFutureDate("2025-05-15T23:59:59Z", referenceDate)).toBe(false);
+    });
+
+    it("handles single digit days correctly when comparing", () => {
+      const earlyMay = new Date(2025, 4, 5);
+      expect(isFutureDate(earlyMay, referenceDate)).toBe(false);
+    });
+
+    it("returns false when current date is missing", () => {
+      expect(isFutureDate("2025-01-01", null)).toBe(false);
+    });
+  });
+
   test("renders without crashing when button text is set", async () => {
     const click = vi.fn();
     render(
