@@ -54,17 +54,17 @@ import org.springframework.web.bind.annotation.*;
     public Course postCourse(
         @Parameter(
             name = &quot;code&quot;,
-            description = &quot;e.g. CMPSC 156, CHEM 123&quot;
+            description = &quot;e.g. CMPSC 156&quot;
         )
         @RequestParam String code,
         @Parameter(
             name = &quot;name&quot;,
-            description = &quot;e.g. Advanced Applications Programming, Enviromental Chemistry&quot;
+            description = &quot;e.g. Advanced Applications Programming&quot;
         )
         @RequestParam String name,
         @Parameter(
             name = &quot;term&quot;,
-            description = &quot;e.g. F25, W26&quot;
+            description = &quot;e.g. F25&quot;
         )
         @RequestParam String term
     )
