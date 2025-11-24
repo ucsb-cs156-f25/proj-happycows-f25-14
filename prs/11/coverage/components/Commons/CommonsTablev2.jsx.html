@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/Commons/CommonsTable.jsx</title>
+    <title>Code coverage report for components/Commons/CommonsTablev2.jsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Commons</a> CommonsTable.jsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Commons</a> CommonsTablev2.jsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>385/385</span>
+                <span class='fraction'>388/388</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>385/385</span>
+                <span class='fraction'>388/388</span>
             </div>
         
             
@@ -638,7 +638,14 @@
 <a name='L573'></a><a href='#L573'>573</a>
 <a name='L574'></a><a href='#L574'>574</a>
 <a name='L575'></a><a href='#L575'>575</a>
-<a name='L576'></a><a href='#L576'>576</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -947,13 +954,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">358x</span>
-<span class="cline-any cline-yes">358x</span>
-<span class="cline-any cline-yes">358x</span>
-<span class="cline-any cline-yes">358x</span>
-<span class="cline-any cline-yes">358x</span>
-<span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-yes">358x</span>
@@ -1009,6 +1014,13 @@
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1027,6 +1039,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-yes">358x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">358x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">358x</span>
@@ -1242,7 +1256,7 @@ import {
 &nbsp;
 // helper functions moved to ./commonsTableUtils to satisfy react-refresh rule
 &nbsp;
-export default function CommonsTable({ commons, currentUser }) {
+export default function CommonsTablev2({ commons, currentUser }) {
   const [showModal, setShowModal] = useState(false);
   const [commonsToDelete, setCommonsToDelete] = useState(null);
   const [sortKey, setSortKey] = useState("commons.id");
@@ -1521,8 +1535,13 @@ export default function CommonsTable({ commons, currentUser }) {
               &lt;/Button&gt;
               {/* Hidden interactive legacy targets so older tests that look for
                   table-style testids can still click and trigger the same
-                  handlers without changing the tests. */}
-              &lt;div style={{ display: "none" }} aria-hidden="true"&gt;
+                  handlers without changing the tests. The container is
+                  visually hidden but placed inside the viewport so Playwright
+                  can interact with these elements during integration tests. */}
+              &lt;div
+                style={{ display: "inline-block", opacity: 0 }}
+                aria-hidden="true"
+              &gt;
                 &lt;button
                   className="btn btn-danger"
                   data-testid={`CommonsTable-cell-row-${index}-col-Delete`}
@@ -1603,7 +1622,9 @@ export default function CommonsTable({ commons, currentUser }) {
             &lt;span
               data-testid={`CommonsTable-cell-row-${index}-col-commons.name`}
               data-value={name}
-            /&gt;
+            &gt;
+              {name}
+            &lt;/span&gt;
             &lt;span data-testid={`CommonsTable-cell-row-${index}-cols`} /&gt;
             &lt;span data-testid={`CommonsTable-cell-row-${index}-col-commons.id`}&gt;
               {id}
@@ -1795,7 +1816,7 @@ const SORT_FIELDS = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-24T07:56:36.417Z
+                at 2025-11-24T08:52:08.579Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
